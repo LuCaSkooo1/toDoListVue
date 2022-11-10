@@ -19,10 +19,10 @@
 		</div>
 
 		<h2>Tasks:</h2>
-		<div class="taskList" v-for="task in tasks" :key="task">
+		<div class="taskList" v-for="task in tasks" :key="task.id">
 			<div class="task">
-				<h3 v-if="task.removed == false">
-					{{ task.id }}. {{ task.task }}
+				<h3 v-if="task.removed == false" @click="deleteTask(task)">
+					{{ task.name }}
 				</h3>
 			</div>
 		</div>
@@ -30,19 +30,28 @@
 </template>
 
 <script setup lang="ts">
-import { ref } from "vue"
-let taskId = 1
-let tasks = ref([])
+import { ref, onMounted } from "vue"
+const tasks = ref([])
 
 function addTask() {
 	let taskBar = document.getElementById("taskBar") as HTMLInputElement
 	let taskBarValue = (document.getElementById("taskBar") as HTMLInputElement)
 		.value
 	if (taskBarValue != "" && taskBarValue != " ") {
-		tasks.value.push({ task: taskBarValue, id: taskId++, removed: false })
-		taskBar.value = null
+		tasks.value.push({ name: taskBarValue, removed: false })
+		taskBar.value = ""
+		localStorage["tasks"] = JSON.stringify(tasks.value)
 	}
 }
+
+function deleteTask(task) {
+	task.removed = true
+	localStorage["tasks"] = JSON.stringify(tasks.value)
+}
+
+onMounted(() => {
+	tasks.value = JSON.parse(localStorage["tasks"] || "[]")
+})
 </script>
 
 <style scoped>

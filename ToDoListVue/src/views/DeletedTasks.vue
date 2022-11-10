@@ -1,6 +1,7 @@
 <template>
 	<div>
 		<h1>Deleted Tasks:</h1>
+
 		<button class="btn" @click="$router.push({ path: '/' })">
 			Active Tasks
 		</button>
