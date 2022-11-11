@@ -29,28 +29,41 @@
 	</div>
 </template>
 
-<script setup lang="ts">
-import { ref, onMounted } from "vue"
-const tasks = ref([])
-
-function addTask() {
-	let taskBar = document.getElementById("taskBar") as HTMLInputElement
-	let taskBarValue = (document.getElementById("taskBar") as HTMLInputElement)
-		.value
-	if (taskBarValue != "" && taskBarValue != " ") {
-		tasks.value.push({ name: taskBarValue, removed: false })
-		taskBar.value = ""
-		localStorage["tasks"] = JSON.stringify(tasks.value)
+<script lang="ts">
+import { defineComponent } from "vue"
+export default defineComponent({
+	data() {
+		return {
+			tasks: [],
+			deletedTasks: []
+		}
+	},
+	mounted() {
+		this.tasks = JSON.parse(localStorage["tasks"] || "[]")
+	},
+	methods: {
+		addTask() {
+			let taskBar = document.getElementById("taskBar") as HTMLInputElement
+			let taskBarValue = (
+				document.getElementById("taskBar") as HTMLInputElement
+			).value
+			if (taskBarValue != "" && taskBarValue != " ") {
+				this.tasks.push({ name: taskBarValue, removed: false })
+				taskBar.value = ""
+				localStorage["tasks"] = JSON.stringify(this.stasks)
+				localStorage["deletedTasks"] = JSON.stringify(this.deletedTasks)
+			}
+		},
+		deleteTask(task) {
+			task.removed = true
+			this.deletedTasks.push(task)
+			this.tasks.splice(this.tasks.indexOf(task))
+			console.log(this.deletedTasks)
+			console.log(this.tasks)
+			localStorage["deletedTasks"] = JSON.stringify(this.deletedTasks)
+			localStorage["tasks"] = JSON.stringify(this.tasks)
+		}
 	}
-}
-
-function deleteTask(task) {
-	task.removed = true
-	localStorage["tasks"] = JSON.stringify(tasks.value)
-}
-
-onMounted(() => {
-	tasks.value = JSON.parse(localStorage["tasks"] || "[]")
 })
 </script>
 

@@ -1,16 +1,46 @@
 <template>
-	<div>
+	<div class="container">
 		<h1>Deleted Tasks:</h1>
-
+		<div class="taskList" v-for="task in deletedTasks" :key="task.id">
+			<div class="task">
+				<h3>
+					{{ task.name }}
+				</h3>
+			</div>
+		</div>
 		<button class="btn" @click="$router.push({ path: '/' })">
 			Active Tasks
 		</button>
+		<button class="btn" @click="cleanUp()">Clean Up</button>
 	</div>
 </template>
 
-<script setup lang="ts"></script>
+<script lang="ts">
+import { defineComponent } from "vue"
+export default defineComponent({
+	data() {
+		return { deletedTasks: [] }
+	},
+	mounted() {
+		this.deletedTasks = JSON.parse(localStorage.getItem("deletedTasks"))
+	},
+	methods: {
+		cleanUp() {
+			localStorage.removeItem("deletedTasks")
+			this.deletedTasks = []
+		}
+	}
+})
+</script>
 
 <style scoped>
+.container {
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+}
+
 .btn {
 	margin-top: 30px;
 	width: 200px;
