@@ -50,11 +50,11 @@ export default defineComponent({
 			if (taskBarValue != "" && taskBarValue != " ") {
 				this.tasks.push({ name: taskBarValue, removed: false })
 				taskBar.value = ""
-				localStorage["tasks"] = JSON.stringify(this.stasks)
-				localStorage["deletedTasks"] = JSON.stringify(this.deletedTasks)
+				localStorage["tasks"] = JSON.stringify(this.tasks)
 			}
 		},
 		deleteTask(task) {
+			this.deletedTasks = JSON.parse(localStorage["deletedTasks"] || "[]")
 			task.removed = true
 			this.deletedTasks.push(task)
 			this.tasks.splice(this.tasks.indexOf(task), 1)

@@ -22,7 +22,9 @@ export default defineComponent({
 		return { deletedTasks: [] }
 	},
 	mounted() {
-		this.deletedTasks = JSON.parse(localStorage.getItem("deletedTasks"))
+		this.deletedTasks = JSON.parse(
+			localStorage.getItem("deletedTasks") || "[]"
+		)
 	},
 	methods: {
 		cleanUp() {
