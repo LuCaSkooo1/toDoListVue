@@ -57,9 +57,7 @@ export default defineComponent({
 		deleteTask(task) {
 			task.removed = true
 			this.deletedTasks.push(task)
-			this.tasks.splice(this.tasks.indexOf(task))
-			console.log(this.deletedTasks)
-			console.log(this.tasks)
+			this.tasks.splice(this.tasks.indexOf(task), 1)
 			localStorage["deletedTasks"] = JSON.stringify(this.deletedTasks)
 			localStorage["tasks"] = JSON.stringify(this.tasks)
 		}
