@@ -20,22 +20,22 @@
 
 		<h2>Tasks:</h2>
 		<div class="taskList" v-for="task in tasks" :key="task.id">
-			<div class="task">
-				<h3 v-if="task.removed == false" @click="deleteTask(task)">
-					{{ task.name }}
-				</h3>
-			</div>
+			<Task :task="task" />
 		</div>
 	</div>
 </template>
 
 <script lang="ts">
 import { defineComponent } from "vue"
+import Task from "@/components/Task.vue"
 export default defineComponent({
+	components: {
+		Task
+	},
+
 	data() {
 		return {
-			tasks: [],
-			deletedTasks: []
+			tasks: []
 		}
 	},
 	mounted() {
@@ -52,14 +52,6 @@ export default defineComponent({
 				taskBar.value = ""
 				localStorage["tasks"] = JSON.stringify(this.tasks)
 			}
-		},
-		deleteTask(task) {
-			this.deletedTasks = JSON.parse(localStorage["deletedTasks"] || "[]")
-			task.removed = true
-			this.deletedTasks.push(task)
-			this.tasks.splice(this.tasks.indexOf(task), 1)
-			localStorage["deletedTasks"] = JSON.stringify(this.deletedTasks)
-			localStorage["tasks"] = JSON.stringify(this.tasks)
 		}
 	}
 })
@@ -129,18 +121,5 @@ p {
 	font-family: Inter, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
 		Oxygen, Ubuntu, Cantarell, "Fira Sans", "Droid Sans", "Helvetica Neue",
 		sans-serif;
-}
-
-.task {
-	display: flex;
-	justify-content: space-between;
-	width: 100%;
-	align-items: center;
-	transition: all 300ms;
-}
-
-.task:hover {
-	color: #fff;
-	cursor: pointer;
 }
 </style>
