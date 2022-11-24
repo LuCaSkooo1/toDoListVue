@@ -28,6 +28,7 @@
 <script lang="ts">
 import { defineComponent } from "vue"
 import Task from "@/components/Task.vue"
+import axios from "axios"
 export default defineComponent({
 	components: {
 		Task
@@ -42,7 +43,7 @@ export default defineComponent({
 		this.tasks = JSON.parse(localStorage["tasks"] || "[]")
 	},
 	methods: {
-		addTask() {
+		async addTask() {
 			let taskBar = document.getElementById("taskBar") as HTMLInputElement
 			let taskBarValue = (
 				document.getElementById("taskBar") as HTMLInputElement
