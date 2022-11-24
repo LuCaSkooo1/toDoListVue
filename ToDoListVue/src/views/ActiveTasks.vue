@@ -53,6 +53,11 @@ export default defineComponent({
 				taskBar.value = ""
 				localStorage["tasks"] = JSON.stringify(this.tasks)
 			}
+			const postTask = await axios.post("tasks/project/create", {
+				name: "John Doe"
+			})
+			const getTasks = await axios.get("tasks/project/1")
+			console.log(getTasks.data)
 		}
 	}
 })
