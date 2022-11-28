@@ -39,8 +39,11 @@ export default defineComponent({
 			tasks: []
 		}
 	},
-	mounted() {
+	async mounted() {
 		this.tasks = JSON.parse(localStorage["tasks"] || "[]")
+		const response = await axios.get("tasks/project/1")
+		const gettedTasks = response.data.task
+		this.tasks.push({ name: gettedTasks, removed: false })
 	},
 	methods: {
 		async addTask() {
@@ -53,11 +56,9 @@ export default defineComponent({
 				taskBar.value = ""
 				localStorage["tasks"] = JSON.stringify(this.tasks)
 			}
-			const postTask = await axios.post("tasks/project/create", {
+			await axios.post("tasks/project/create", {
 				name: "John Doe"
 			})
-			const getTasks = await axios.get("tasks/project/1")
-			console.log(getTasks.data)
 		}
 	}
 })
