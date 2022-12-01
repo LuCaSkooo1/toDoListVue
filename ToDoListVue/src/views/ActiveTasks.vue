@@ -41,7 +41,19 @@ export default defineComponent({
 	},
 	async mounted() {
 		this.tasks = JSON.parse(localStorage["tasks"] || "[]")
-		const response = await axios.get("tasks/project/1")
+		const response = await axios.get("tasks/project/1").catch((error) => {
+			if (error.response) {
+				console.log(error.response.data)
+				console.log(error.response.status)
+				console.log(error.response.headers)
+			} else if (error.request) {
+				console.log(error.request)
+			} else {
+				console.log("Error", error.message)
+			}
+			console.log(error.config)
+			return { data: {} }
+		})
 		const gettedTasks = response.data.task
 		this.tasks.push({ name: gettedTasks, removed: false })
 	},
@@ -57,7 +69,7 @@ export default defineComponent({
 				localStorage["tasks"] = JSON.stringify(this.tasks)
 			}
 			await axios.post("tasks/project/create", {
-				name: "John Doe"
+				task: "Vyvencit psa"
 			})
 		}
 	}
