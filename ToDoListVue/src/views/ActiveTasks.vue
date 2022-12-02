@@ -36,25 +36,18 @@ export default defineComponent({
 
 	data() {
 		return {
+			response: null,
 			tasks: []
 		}
 	},
 	async mounted() {
 		this.tasks = JSON.parse(localStorage["tasks"] || "[]")
-		const response = await axios.get("tasks/project/1").catch((error) => {
-			if (error.response) {
-				console.log(error.response.data)
-				console.log(error.response.status)
-				console.log(error.response.headers)
-			} else if (error.request) {
-				console.log(error.request)
-			} else {
-				console.log("Error", error.message)
-			}
-			console.log(error.config)
-			return { data: {} }
-		})
-		const gettedTasks = response.data.task
+		try {
+			this.response = await axios.get("tasks/project/1")
+		} catch (error) {
+			console.error(error)
+		}
+		const gettedTasks = this.response?.data.task
 		this.tasks.push({ name: gettedTasks, removed: false })
 	},
 	methods: {
@@ -68,9 +61,13 @@ export default defineComponent({
 				taskBar.value = ""
 				localStorage["tasks"] = JSON.stringify(this.tasks)
 			}
-			await axios.post("tasks/project/create", {
-				task: "Vyvencit psa"
-			})
+			try {
+				await axios.post("tasks/project/create", {
+					task: "Vyvencit psa"
+				})
+			} catch (error) {
+				console.error(error)
+			}
 		}
 	}
 })
