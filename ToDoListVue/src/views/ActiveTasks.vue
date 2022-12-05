@@ -45,12 +45,11 @@ export default defineComponent({
 		this.tasks = JSON.parse(localStorage["tasks"] || "[]")
 		try {
 			this.response = await axios.get("tasks/project/1")
-			this.tasks.push({ name: this.gettedTasks, removed: false })
-
+			const gettedTasks = this.response?.data.task
+			this.tasks.push({ name: gettedTasks, removed: false })
 		} catch (error) {
-			console.log(error)
+			console.error(error)
 		}
-
 	},
 	methods: {
 		async addTask() {
