@@ -29,6 +29,7 @@
 import { defineComponent } from "vue"
 import Task from "@/components/Task.vue"
 import axios from "axios"
+
 export default defineComponent({
 	components: {
 		Task
