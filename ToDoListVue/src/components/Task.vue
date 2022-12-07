@@ -7,10 +7,18 @@
 </template>
 <script lang="ts">
 import { defineComponent, PropType } from "vue"
+import { mapStores } from "pinia"
+import { useActiveTasksStore } from "@/stores/activeTasks.js"
+import { useDeletedTasksStore } from "@/stores/deletedTasks.js"
 export default defineComponent({
 	props: {
 		task: Object as PropType<{ removed: boolean; name: string }>
 	},
+
+	computed: {
+		...mapStores(useActiveTasksStore, useDeletedTasksStore)
+	},
+
 	methods: {
 		deleteTask(task) {
 			const tasks = JSON.parse(localStorage["tasks"] || "[]")

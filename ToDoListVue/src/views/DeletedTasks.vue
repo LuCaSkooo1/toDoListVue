@@ -17,18 +17,23 @@
 
 <script lang="ts">
 import { defineComponent } from "vue"
+import { useDeletedTasksStore } from "@/stores/deletedTasks.js"
+import { mapStores } from "pinia"
+
 export default defineComponent({
 	data() {
 		return { deletedTasks: [] }
 	},
+	computed: {
+		...mapStores(useDeletedTasksStore)
+	},
 	mounted() {
-		this.deletedTasks = JSON.parse(
-			localStorage.getItem("deletedTasks") || "[]"
-		)
+		this.deletedTasks = this.deletedStore.tasks
 	},
 	methods: {
 		cleanUp() {
-			localStorage.removeItem("deletedTasks")
+			this.deletedStore.clean()
+			console.log(this.deletedStore.tasks)
 			this.deletedTasks = []
 		}
 	}
