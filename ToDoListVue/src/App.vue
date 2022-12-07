@@ -1,14 +1,23 @@
-<script setup lang="ts">
+<script lang="ts">
+import { defineComponent } from "vue"
+import { mapActions, mapState } from "pinia"
 import { useActiveTasksStore } from "@/stores/activeTasks.js"
 import { useDeletedTasksStore } from "@/stores/deletedTasks.js"
-
-useActiveTasksStore()
-useDeletedTasksStore()
+export default defineComponent({
+	data() {
+		return {
+			...mapState(useActiveTasksStore, []),
+			...mapActions(useDeletedTasksStore, [])
+		}
+	},
+	methods: {
+		...mapActions(useActiveTasksStore, ["addTask"]),
+		...mapActions(useDeletedTasksStore, [])
+	}
+})
 </script>
 
 <template>
-	<div></div>
-
 	<RouterView />
 </template>
 
