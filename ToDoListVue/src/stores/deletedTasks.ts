@@ -2,7 +2,7 @@ import { defineStore } from "pinia"
 export const useDeletedTasksStore = defineStore({
 	id: "deleted",
 	state: () => ({
-		tasks: [{ name: "ist do skoly", deleted: true }]
+		tasks: []
 	}),
 	getters: {
 		getTask: (state) => state.tasks

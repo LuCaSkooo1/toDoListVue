@@ -30,6 +30,7 @@ export default defineComponent({
 			tasks.splice(tasks.indexOf(task), 1)
 			localStorage["deletedTasks"] = JSON.stringify(deletedTasks)
 			localStorage["tasks"] = JSON.stringify(tasks)
+			this.activeStore.delete(task)
 		}
 	}
 })

@@ -11,6 +11,7 @@
 		"mock:watch": "axios-mock-server --watch"
 	},
 	"dependencies": {
+		"@vueuse/core": "^9.6.0",
 		"axios": "^1.2.1",
 		"moxios": "^0.4.0",
 		"pinia": "^2.0.27",

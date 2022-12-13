@@ -19,10 +19,7 @@
 		</div>
 
 		<h2>Tasks:</h2>
-		<div
-			class="taskList"
-			v-for="task in this.activeStore.tasks"
-			:key="task.id">
+		<div class="taskList" v-for="task in tasks" :key="task.id">
 			<Task :task="task" />
 		</div>
 	</div>
@@ -47,21 +44,17 @@ export default defineComponent({
 	data() {
 		return {
 			response: null,
-			storedTask: null,
 			tasks: []
 		}
 	},
 	async mounted() {
 		try {
+			this.tasks = this.tasks.concat(this.activeStore.tasks)
+			console.log(this.tasks)
+
 			this.response = await axios.get("tasks/project/1")
 			const gettedTasks = this.response?.data.task
 			this.tasks.push({ name: gettedTasks, removed: false })
-			this.storedTask = this.activeTasks.task
-			const storedTasks = this.storedTask?.data.task
-			this.tasks.push({
-				name: storedTasks,
-				removed: false
-			})
 		} catch (error) {
 			console.error(error)
 		}
@@ -74,8 +67,8 @@ export default defineComponent({
 			).value
 			if (taskBarValue != "" && taskBarValue != " ") {
 				this.tasks.push({ name: taskBarValue, removed: false })
+				this.activeStore.addTask({ name: taskBarValue, removed: false })
 				taskBar.value = ""
-				localStorage["tasks"] = JSON.stringify(this.tasks)
 			} else {
 				alert("type task!")
 			}
