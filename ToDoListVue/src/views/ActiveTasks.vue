@@ -28,9 +28,8 @@
 <script lang="ts">
 import { defineComponent } from "vue"
 import Task from "@/components/Task.vue"
-import axios from "axios"
 import { mapStores } from "pinia"
-import { useActiveTasksStore } from "@/stores/activeTasks.js"
+import { useActiveTasksStore } from "@/stores/tasksStore"
 
 export default defineComponent({
 	components: {
@@ -51,10 +50,6 @@ export default defineComponent({
 		try {
 			this.tasks = this.tasks.concat(this.activeStore.tasks)
 			console.log(this.tasks)
-
-			this.response = await axios.get("tasks/project/1")
-			const gettedTasks = this.response?.data.task
-			this.tasks.push({ name: gettedTasks, removed: false })
 		} catch (error) {
 			console.error(error)
 		}
@@ -71,13 +66,6 @@ export default defineComponent({
 				taskBar.value = ""
 			} else {
 				alert("type task!")
-			}
-			try {
-				await axios.post("tasks/project/create", {
-					task: "Vyvencit psa"
-				})
-			} catch (error) {
-				console.error(error)
 			}
 		}
 	}

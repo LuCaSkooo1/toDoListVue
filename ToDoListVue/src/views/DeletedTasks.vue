@@ -1,7 +1,7 @@
 <template>
 	<div class="container">
 		<h1>Deleted Tasks:</h1>
-		<div class="taskList" v-for="task in deletedTasks" :key="task.id">
+		<div class="taskList" v-for="task in this.deletedTasks" :key="task.id">
 			<div class="task">
 				<h3>
 					{{ task.name }}
@@ -17,25 +17,24 @@
 
 <script lang="ts">
 import { defineComponent } from "vue"
-import { useDeletedTasksStore } from "@/stores/deletedTasks.js"
 import { mapStores } from "pinia"
+import { useActiveTasksStore } from "@/stores/tasksStore"
 
 export default defineComponent({
 	data() {
 		return { deletedTasks: [] }
 	},
 	computed: {
-		...mapStores(useDeletedTasksStore)
+		...mapStores(useActiveTasksStore)
 	},
 	mounted() {
-		this.deletedTasks = this.deletedStore.tasks
+		this.deletedTasks = this.activeStore.tasks.filter(
+			(task) => task.removed == true
+		)
+		this.cleanUp()
 	},
 	methods: {
-		cleanUp() {
-			this.deletedStore.clean()
-			console.log(this.deletedStore.tasks)
-			this.deletedTasks = []
-		}
+		cleanUp() {}
 	}
 })
 </script>
