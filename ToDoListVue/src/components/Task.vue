@@ -20,7 +20,7 @@ export default defineComponent({
 
 	methods: {
 		deleteTask(task) {
-			task.removed = true
+			this.activeStore.remove(task)
 		}
 	}
 })

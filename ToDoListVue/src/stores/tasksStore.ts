@@ -8,17 +8,20 @@ export const useActiveTasksStore = defineStore({
 			tasks: useStorage("tasks", [])
 		}
 	},
-	getters: {
-		removed(state) {}
-	},
 	actions: {
 		cleanUp() {
 			this.tasks
 				.filter((task) => task.removed == true)
-				.forEach((task) => task.splice())
+				.forEach((task) =>
+					this.tasks.splice(this.tasks.indexOf(task), 1)
+				)
 		},
 		addTask(task) {
 			this.tasks.push(task)
+		},
+		remove(task) {
+			task.removed = true
+			this.tasks.filter((data) => data === task)[0] = task
 		}
 	}
 })

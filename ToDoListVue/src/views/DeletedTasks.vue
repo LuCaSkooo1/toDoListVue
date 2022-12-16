@@ -31,10 +31,12 @@ export default defineComponent({
 		this.deletedTasks = this.activeStore.tasks.filter(
 			(task) => task.removed == true
 		)
-		this.cleanUp()
 	},
 	methods: {
-		cleanUp() {}
+		cleanUp() {
+			this.activeStore.cleanUp()
+			this.deletedTasks = []
+		}
 	}
 })
 </script>
