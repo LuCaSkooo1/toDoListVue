@@ -28,17 +28,13 @@
 <script lang="ts">
 import { defineComponent } from "vue"
 import Task from "@/components/Task.vue"
-import { mapStores } from "pinia"
-import { useActiveTasksStore } from "@/stores/tasksStore"
 
 export default defineComponent({
 	components: {
 		Task
 	},
 
-	computed: {
-		...mapStores(useActiveTasksStore)
-	},
+	computed: {},
 
 	data() {
 		return {
@@ -62,7 +58,6 @@ export default defineComponent({
 			).value
 			if (taskBarValue != "" && taskBarValue != " ") {
 				this.tasks.push({ name: taskBarValue, removed: false })
-				this.activeStore.addTask({ name: taskBarValue, removed: false })
 				taskBar.value = ""
 			} else {
 				alert("type task!")
