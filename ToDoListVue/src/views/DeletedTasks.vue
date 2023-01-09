@@ -17,24 +17,15 @@
 
 <script lang="ts">
 import { defineComponent } from "vue"
-import { mapStores } from "pinia"
-import { useActiveTasksStore } from "@/stores/tasksStore"
 
 export default defineComponent({
 	data() {
 		return { deletedTasks: [] }
 	},
-	computed: {
-		...mapStores(useActiveTasksStore)
-	},
-	mounted() {
-		this.deletedTasks = this.activeStore.tasks.filter(
-			(task) => task.removed == true
-		)
-	},
+	computed: {},
+	mounted() {},
 	methods: {
 		cleanUp() {
-			this.activeStore.cleanUp()
 			this.deletedTasks = []
 		}
 	}
