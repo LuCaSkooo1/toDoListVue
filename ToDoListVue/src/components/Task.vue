@@ -7,21 +7,15 @@
 </template>
 <script lang="ts">
 import { defineComponent, PropType } from "vue"
-import { mapStores } from "pinia"
-import { useActiveTasksStore } from "@/stores/tasksStore.js"
 export default defineComponent({
 	props: {
 		task: Object as PropType<{ removed: boolean; name: string }>
 	},
 
-	computed: {
-		...mapStores(useActiveTasksStore)
-	},
+	computed: {},
 
 	methods: {
-		deleteTask(task) {
-			this.activeStore.remove(task)
-		}
+		deleteTask(task) {}
 	}
 })
 </script>

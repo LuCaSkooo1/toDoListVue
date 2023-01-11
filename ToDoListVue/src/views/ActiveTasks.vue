@@ -44,7 +44,6 @@ export default defineComponent({
 	},
 	async mounted() {
 		try {
-			this.tasks = this.tasks.concat(this.activeStore.tasks)
 			console.log(this.tasks)
 		} catch (error) {
 			console.error(error)
@@ -59,6 +58,11 @@ export default defineComponent({
 			if (taskBarValue != "" && taskBarValue != " ") {
 				this.tasks.push({ name: taskBarValue, removed: false })
 				taskBar.value = ""
+				this.$store.commit("addTask", {
+					name: taskBarValue,
+					removed: false
+				})
+				console.log(this.$store.state.tasks)
 			} else {
 				alert("type task!")
 			}
